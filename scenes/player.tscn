@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://uobv62rllcp7"]
+
+[ext_resource type="Script" uid="uid://c1jiesqfa08to" path="res://scripts/player.gd" id="1_3vyb7"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tbgi4"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_jv1ba"]
+
+[node name="Player" type="Area2D" unique_id=1422007142]
+script = ExtResource("1_3vyb7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=299128871]
+shape = SubResource("CircleShape2D_tbgi4")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1434456010]
+modulate = Color(0, 1, 0.32156864, 1)
+position = Vector2(-8.940697e-07, -0.5000007)
+scale = Vector2(16, 17.000002)
+texture = SubResource("CanvasTexture_jv1ba")
+
+[node name="BoostTimer" type="Timer" parent="." unique_id=1743095086]
+unique_name_in_owner = true
+wait_time = 3.0
+one_shot = true

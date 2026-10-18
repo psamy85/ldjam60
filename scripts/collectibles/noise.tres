@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="StatEffect" format=3 uid="uid://8dil8x8vbgi3"]
+
+[ext_resource type="Script" uid="uid://jug8jggbeq8u" path="res://scripts/stat_effect.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+target = 1
+property = &"noise_amount"
+amount = 20.0
+description = "Noisy signal"
+display_text = "NOISE"
+color = Color(1, 0.45, 0.75, 1)
+is_bonus = false
+duration = 5.0
+spawn_weight = 0.8
+points = 0

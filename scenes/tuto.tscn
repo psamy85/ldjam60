@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://bv11rsjqr1kel"]
+
+[ext_resource type="Script" uid="uid://cy3i0s7entbqx" path="res://scripts/tuto.gd" id="1_bsno1"]
+[ext_resource type="FontFile" uid="uid://c0pegwh8i4fi4" path="res://assets/Welbut__.ttf" id="2_fwca6"]
+[ext_resource type="Texture2D" uid="uid://cp072nfjeownl" path="res://assets/Cadre-Oscillo.png" id="2_wbhrs"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_bsno1"]
+font = ExtResource("2_fwca6")
+font_size = 40
+
+[node name="Tuto" type="Control" unique_id=1424632217]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bsno1")
+menu_scene = null
+font_size = null
+key_color = null
+controls = null
+
+[node name="Back" type="ColorRect" parent="." unique_id=1695720189]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5882353)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1666637327]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Frame" type="MarginContainer" parent="CenterContainer" unique_id=276635566]
+layout_mode = 2
+
+[node name="Inset" type="MarginContainer" parent="CenterContainer/Frame" unique_id=1476758280]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="ColorRect" type="ColorRect" parent="CenterContainer/Frame/Inset" unique_id=1148708388]
+layout_mode = 2
+color = Color(0.06469653, 0.06469653, 0.06469653, 1)
+
+[node name="NinePatchRect" type="NinePatchRect" parent="CenterContainer/Frame" unique_id=142363113]
+layout_mode = 2
+texture = ExtResource("2_wbhrs")
+region_rect = Rect2(0, 0, 64, 64)
+patch_margin_left = 10
+patch_margin_top = 15
+patch_margin_right = 10
+patch_margin_bottom = 11
+
+[node name="Padding" type="MarginContainer" parent="CenterContainer/Frame" unique_id=874314780]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Frame/Padding" unique_id=533050771]
+layout_mode = 2
+
+[node name="ControlsLabel" type="Label" parent="CenterContainer/Frame/Padding/VBoxContainer" unique_id=1662334025]
+layout_mode = 2
+text = "Controls"
+label_settings = SubResource("LabelSettings_bsno1")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ControlsGrid" type="GridContainer" parent="CenterContainer/Frame/Padding/VBoxContainer" unique_id=1477074999]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 2
+
+[node name="BackButton" type="Button" parent="CenterContainer/Frame/Padding/VBoxContainer" unique_id=1142624794]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Back
+"

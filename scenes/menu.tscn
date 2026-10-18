@@ -1,0 +1,178 @@
+[gd_scene format=3 uid="uid://cbkhnmp4noom7"]
+
+[ext_resource type="Script" uid="uid://bs6kl7dneero8" path="res://scripts/menu.gd" id="1_4ytvr"]
+[ext_resource type="FontFile" uid="uid://c0pegwh8i4fi4" path="res://assets/Welbut__.ttf" id="1_vjb58"]
+[ext_resource type="Texture2D" uid="uid://cp072nfjeownl" path="res://assets/Cadre-Oscillo.png" id="2_con2f"]
+[ext_resource type="Script" uid="uid://dbdvtb1o8u5qe" path="res://scripts/oscillo_wave.gd" id="3_4ytvr"]
+[ext_resource type="Shader" uid="uid://o651yi2jv2sa" path="res://assets/crt_filter.gdshader" id="3_mhnvy"]
+[ext_resource type="PackedScene" uid="uid://bv11rsjqr1kel" path="res://scenes/tuto.tscn" id="6_g3eks"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_4h3mk"]
+font = ExtResource("1_vjb58")
+font_size = 140
+font_color = Color(0.7254902, 0.41568628, 0.5137255, 1)
+outline_size = 10
+outline_color = Color(0.28627452, 0, 0.43137255, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g3eks"]
+shader = ExtResource("3_mhnvy")
+shader_parameter/curvature = 0.0150000007125
+shader_parameter/scanline_count = 60.0
+shader_parameter/scanline_intensity = 0.35
+shader_parameter/aberration = 0.0010000000475
+shader_parameter/vignette_intensity = 0.30000001425
+shader_parameter/flicker_intensity = 0.02
+shader_parameter/brightness = 1.300000038
+
+[sub_resource type="LabelSettings" id="LabelSettings_4ytvr"]
+font = ExtResource("1_vjb58")
+font_size = 40
+
+[node name="Menu" type="Control" unique_id=341638353]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4ytvr")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1955522061]
+layout_mode = 0
+offset_left = -1.0
+offset_right = 1919.0
+offset_bottom = 1080.0
+color = Color(0.10103888, 0, 0.64311725, 1)
+
+[node name="GameName" type="Label" parent="." unique_id=921967149]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -451.5
+offset_top = 100.0
+offset_right = 451.5
+offset_bottom = 265.0
+grow_horizontal = 2
+text = ">_ Runscilloscope"
+label_settings = SubResource("LabelSettings_4h3mk")
+
+[node name="Oscillo" type="Node" parent="." unique_id=763934196]
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Oscillo" unique_id=429984082]
+z_index = 5
+anchors_preset = -1
+anchor_left = 0.43697917
+anchor_top = 0.4185185
+anchor_right = 0.5630208
+anchor_bottom = 0.58148146
+offset_left = -226.0
+offset_top = -128.0
+offset_right = 226.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_con2f")
+region_rect = Rect2(0, 0, 64, 64)
+patch_margin_left = 10
+patch_margin_top = 15
+patch_margin_right = 10
+patch_margin_bottom = 11
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect" type="ColorRect" parent="Oscillo" unique_id=2032029389]
+anchors_preset = -1
+anchor_left = 0.43697917
+anchor_top = 0.4185185
+anchor_right = 0.5630208
+anchor_bottom = 0.58148146
+offset_left = -216.0
+offset_top = -113.0
+offset_right = 216.0
+offset_bottom = 117.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03529412, 0.101960786, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="OscilloWave" type="Control" parent="Oscillo/ColorRect" unique_id=799661998]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("3_4ytvr")
+
+[node name="CRT" type="ColorRect" parent="Oscillo" unique_id=695254993]
+unique_name_in_owner = true
+z_index = 10
+material = SubResource("ShaderMaterial_g3eks")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -337.0
+offset_top = -201.0
+offset_right = 337.0
+offset_bottom = 201.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1708992319]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -261.0
+offset_top = -271.0
+offset_right = 252.0
+offset_bottom = -45.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="PlayButton" type="Button" parent="VBoxContainer" unique_id=1408418532]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+theme_override_font_sizes/font_size = 80
+text = "Play"
+
+[node name="TutorialButton" type="Button" parent="VBoxContainer" unique_id=1884262872]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Tutorial"
+
+[node name="QuitButton" type="Button" parent="VBoxContainer" unique_id=660355933]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Quit"
+
+[node name="BestLabel" type="Label" parent="." unique_id=1848966155]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 137.0
+offset_top = 583.0
+offset_right = 474.0
+offset_bottom = 639.0
+rotation = -0.32209656
+text = "BEST SCORE 
+000000"
+label_settings = SubResource("LabelSettings_4ytvr")
+horizontal_alignment = 1
+
+[node name="Tuto" parent="." unique_id=1424632217 instance=ExtResource("6_g3eks")]
+unique_name_in_owner = true
+z_index = 15
+layout_mode = 1

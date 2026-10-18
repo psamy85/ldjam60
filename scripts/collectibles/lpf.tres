@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="StatEffect" format=3 uid="uid://4tpqbk8asmh4"]
+
+[ext_resource type="Script" uid="uid://jug8jggbeq8u" path="res://scripts/stat_effect.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+target = 1
+property = &"wavelength_scale"
+amount = 1.0
+description = "Calmer waves"
+display_text = "LPF"
+color = Color(0.5, 0.8, 1, 1)
+duration = 15.0
+points = 0

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="StatEffect" format=3 uid="uid://cbvjly210fvnw"]
+
+[ext_resource type="Script" uid="uid://jug8jggbeq8u" path="res://scripts/stat_effect.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+property = &"fuses"
+amount = 1.0
+description = "Absorbs the next hit"
+display_text = "FUSE"
+color = Color(0.5, 0.8, 1, 1)
+spawn_weight = 0.6
+points = 0

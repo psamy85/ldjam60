@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://blnunxpj5g7kp"]
+
+[ext_resource type="Script" uid="uid://de74wnj55x75b" path="res://scripts/pause_menu.gd" id="1_bsno1"]
+[ext_resource type="Texture2D" uid="uid://cp072nfjeownl" path="res://assets/Cadre-Oscillo.png" id="2_wbhrs"]
+[ext_resource type="FontFile" uid="uid://c0pegwh8i4fi4" path="res://assets/Welbut__.ttf" id="3_kukqi"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_myx47"]
+font = ExtResource("3_kukqi")
+font_size = 46
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[node name="PauseMenu" type="Control" unique_id=464809473]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bsno1")
+lexicon_font_size = 30
+
+[node name="Back" type="ColorRect" parent="." unique_id=1387265829]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5882353)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1051023982]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Frame" type="MarginContainer" parent="CenterContainer" unique_id=308495664]
+layout_mode = 2
+
+[node name="Inset" type="MarginContainer" parent="CenterContainer/Frame" unique_id=1567030866]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="ColorRect" type="ColorRect" parent="CenterContainer/Frame/Inset" unique_id=422442049]
+layout_mode = 2
+color = Color(0.06469653, 0.06469653, 0.06469653, 1)
+
+[node name="NinePatchRect" type="NinePatchRect" parent="CenterContainer/Frame" unique_id=940995808]
+layout_mode = 2
+texture = ExtResource("2_wbhrs")
+region_rect = Rect2(0, 0, 64, 64)
+patch_margin_left = 10
+patch_margin_top = 15
+patch_margin_right = 10
+patch_margin_bottom = 11
+
+[node name="Padding" type="MarginContainer" parent="CenterContainer/Frame" unique_id=820736979]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Frame/Padding" unique_id=388604377]
+layout_mode = 2
+
+[node name="LexiconLabel" type="Label" parent="CenterContainer/Frame/Padding/VBoxContainer" unique_id=493329130]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Lexicon"
+label_settings = SubResource("LabelSettings_myx47")
+horizontal_alignment = 1
+
+[node name="LexiconGrid" type="GridContainer" parent="CenterContainer/Frame/Padding/VBoxContainer" unique_id=1700353966]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 2

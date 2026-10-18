@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="StatEffect" format=3 uid="uid://dchilcqglexb0"]
+
+[ext_resource type="Script" uid="uid://jug8jggbeq8u" path="res://scripts/stat_effect.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+target = 1
+property = &"wavelength_scale"
+amount = -0.5
+description = "Tighter waves"
+display_text = "ALIAS"
+color = Color(0.8763175, 0.28248113, 0.47688705, 1)
+is_bonus = false
+duration = 5.0
+points = 0

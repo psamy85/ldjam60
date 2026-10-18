@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="StatEffect" format=3 uid="uid://bb18dkaxowx1l"]
+
+[ext_resource type="Script" uid="uid://jug8jggbeq8u" path="res://scripts/stat_effect.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+property = &"health"
+amount = 1.0
+description = "+1 HP"
+display_text = "FIX"
+color = Color(0.3019608, 1, 0.4, 1)
+spawn_weight = 1.5
+points = 0

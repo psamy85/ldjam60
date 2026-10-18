@@ -1,92 +1,144 @@
 extends Node2D
 
-@export var line_path: NodePath
-@onready var line: Line2D = get_node(line_path)
+@export var player: Player
+@export var wave: Wave
 
-@export var player_path: NodePath 
-@onready var player: Player = get_node(player_path)
+@export var collectible_scene: PackedScene
+@export var collectibles: Array[CollectibleData] = []
 
-@export_group("Amplitude")
-@export var amplitude: float = 30.0
-@export var min_amplitude: float = 30.0
-@export var max_amplitude: float = 500.0
-@export var amplitude_speed: float = 60.0   
+@export_group("Difficulté")
+@export var ramp_duration: float = 180.0        # secondes pour atteindre la difficulté max
+@export var spawn_interval_start: float = 2.0   # secondes entre deux apparitions au début
+@export var spawn_interval_end: float = 0.5     # … et à la fin
+@export var loot_speed_start: float = 120.0
+@export var loot_speed_end: float = 300.0
+@export var malus_weight_end: float = 1.8       # malus 1,8× plus fréquents à la fin
+@export var scroll_bonus_end: float = 2.0       # vitesse de défilement ajoutée à la fin
 
-@export_group("Largeur des vagues")
-@export var wavelength: float = 300.0          # distance crête à crête, en pixels
-@export var min_wavelength: float = 80.0
-@export var max_wavelength: float = 800.0
-@export var wavelength_speed: float = 200.0    # variation en pixels/s quand on appuie
-@export var wavelength_smoothing: float = 8.0  # plus grand = plus réactif
+@export_file("*.tscn") var menu_scene: String = "res://scenes/menu.tscn"
 
-@export_group("Tracé")
-@export var preview_points: int = 300
-@export var edge_margin: float = 50.0   
+@onready var spawn: Node2D = %Spawn
+@onready var spawn_follow: PathFollow2D = %PathFollow2D
+@onready var spawn_timer: Timer = %SpawnTimer
+@onready var health_bar: HealthBlocks = %HealthBar
+@onready var crt: ColorRect = %CRT
+@onready var game_over: CanvasLayer = %GameOver
+@onready var score_over_label: Label = %ScoreOverLabel
+@onready var restart_button: Button = %RestartButton
+@onready var menu_button: Button = %MenuButton
+@onready var score: Score = $Score
+@onready var score_label: Label = %ScoreLabel
+@onready var combo_label: Label = %ComboLabel
+@onready var pause_menu: Control = %PauseMenu
 
-@export_group("Défilement")
-@export var scroll_speed: float = 3.0
-@export var scroll_accel: float = 6.0
-
-var phase: float = 0.0
-var current_scroll: float = 0.0
-var target_wavelength: float
+var elapsed: float = 0.0
+var difficulty: float = 0.0   # de 0 (début) à 1 (max)
+var is_game_over: bool = false
 
 func _ready() -> void:
-	line.position = get_viewport_rect().size / 2
-	current_scroll = scroll_speed * player.direction.x   # démarre déjà à pleine vitesse
-	target_wavelength = wavelength
-	draw_trajectory()
+	game_over.hide()
+	spawn_timer.timeout.connect(spawn_object)
+	player.health_changed.connect(_on_health_changed)
+	_on_health_changed(player.health, player.max_health) 
+	player.died.connect(_on_died) 
+	restart_button.pressed.connect(_on_restart_pressed)
+	menu_button.pressed.connect(_on_menu_pressed)
+	score.score_changed.connect(_on_score_changed)
+	score.combo_changed.connect(_on_combo_changed)
+	_on_score_changed(0)
+	combo_label.hide()
+	pause_menu.build_lexicon(collectibles)
 
 func _process(delta: float) -> void:
-	update_phase(delta)
-	change_trajectory(delta)
-	update_wavelength(delta)
-	draw_trajectory()
-	update_player()
-	
-func update_phase(delta: float) -> void:
-	# On suit la direction du joueur, avec un demi-tour progressif
-	var target_scroll: float = scroll_speed * player.direction.x
-	current_scroll = move_toward(current_scroll, target_scroll, scroll_accel * delta)
-	# On change la vitesse d'accumulation, jamais la valeur de phase elle-même
-	phase += current_scroll * delta
-	
-	
-func change_trajectory(delta: float) -> void:
-	var input_y := Input.get_axis("lower", "higher")
-	amplitude = clampf(amplitude + input_y * amplitude_speed * delta, min_amplitude, max_amplitude)
-
-	# Les touches ne changent que la cible, le lissage se fait dans update_wavelength
-	var input_w := Input.get_axis("narrower", "wider")
-	target_wavelength = clampf(target_wavelength + input_w * wavelength_speed * delta, min_wavelength, max_wavelength)
-
-func update_wavelength(delta: float) -> void:
-	var old_k: float = TAU / wavelength
-	# Lissage indépendant du framerate
-	wavelength = lerpf(wavelength, target_wavelength, 1.0 - exp(-wavelength_smoothing * delta))
-	var new_k: float = TAU / wavelength
-
-	# Compense la phase pour que la vague ne bouge pas sous le joueur pendant l'étirement
-	var player_x: float = line.to_local(player.global_position).x
-	phase += player_x * (old_k - new_k)
-
-# La courbe est maintenant fonction de x en pixels, plus de t
-func wave_y(x: float) -> float:
-	return sin(x * TAU / wavelength + phase) * amplitude
-
-func draw_trajectory() -> void:
-	if not line:
+	if is_game_over:
 		return
-	line.clear_points()
-	# La ligne couvre toujours tout l'écran (plus une marge), quelle que soit la largeur des vagues
-	var half_width: float = get_viewport_rect().size.x * 0.5 + edge_margin
-	for i in range(preview_points):
-		var x: float = lerpf(-half_width, half_width, float(i) / (preview_points - 1))
-		line.add_point(Vector2(x, wave_y(x)))
+	elapsed += delta
+	difficulty = clampf(elapsed / ramp_duration, 0.0, 1.0)
+	wave.difficulty_scroll = scroll_bonus_end * difficulty
 
-func update_player() -> void:
-	if not line or not player:
+func spawn_object() -> void:
+	if collectibles.is_empty():
 		return
-	var local_pos: Vector2 = line.to_local(player.global_position)
-	local_pos.y = wave_y(local_pos.x)
-	player.global_position = line.to_global(local_pos)
+		
+	# Le prochain spawn arrivera plus vite
+	spawn_timer.wait_time = lerpf(spawn_interval_start, spawn_interval_end, difficulty)
+
+	spawn_follow.progress_ratio = randf()
+	var spawn_pos: Vector2 = spawn_follow.global_position
+
+	var from_right: bool = randf() < 0.5
+	var spawn_direction := Vector2.RIGHT
+	if from_right:
+		spawn_pos.x = get_viewport_rect().size.x - spawn_pos.x
+		spawn_direction = Vector2.LEFT
+
+	var loot: Collectible = collectible_scene.instantiate()
+	loot.data = pick_random_collectible()
+	loot.position = to_local(spawn_pos)
+	loot.direction = spawn_direction
+	loot.collected.connect(_on_collected)
+	loot.speed = lerpf(loot_speed_start, loot_speed_end, difficulty) * randf_range(0.8, 1.2)
+	
+	get_node("Spawn").add_child(loot)
+
+func _weight(c: CollectibleData) -> float:
+	if c.is_bonus:
+		return c.spawn_weight
+	return c.spawn_weight * lerpf(1.0, malus_weight_end, difficulty)
+
+func pick_random_collectible() -> CollectibleData:
+	var total := 0.0
+	for c in collectibles:
+		total += _weight(c)
+	var roll := randf() * total
+	for c in collectibles:
+		roll -= _weight(c)
+		if roll <= 0.0:
+			return c
+	return collectibles.back()
+
+func _on_collected(data: CollectibleData, points: int) -> void:
+	await get_tree().create_timer(data.duration, false).timeout
+	score.register(data, points)
+	data.apply(player, wave)
+
+	if data.duration > 0.0:
+		await get_tree().create_timer(data.duration).timeout
+		if is_instance_valid(player) and is_instance_valid(wave):
+			data.remove(player, wave)
+
+func _on_score_changed(value: int) -> void:
+	score_label.text = "%06d" % value 
+
+func _on_combo_changed(combo: int, multiplier: int) -> void:
+	combo_label.visible = combo >= 2
+	combo_label.text = "COMBO x%d" % multiplier
+
+	# Petit effet de « pop » à chaque nouveau combo
+	if combo >= 2:
+		combo_label.pivot_offset = combo_label.size / 2.0
+		combo_label.scale = Vector2(1.4, 1.4)
+		create_tween().tween_property(combo_label, "scale", Vector2.ONE, 0.15)
+
+func _on_health_changed(health: int, max_health: int) -> void:
+	health_bar.set_health(health, max_health)
+
+func _on_died() -> void:
+	pause_menu.can_pause = false
+	is_game_over = true
+	spawn.queue_free()
+	player.queue_free()
+	wave.modulate = Color.RED
+	wave.flatten_game_over()
+	crt.queue_free()
+	var is_record: bool = GameState.submit_score(score.score)
+	score_over_label.text = "SCORE %06d\nBEST  %06d" % [score.score, GameState.best_score]
+	if is_record:
+		score_over_label.text += "\nNEW RECORD!"
+	game_over.visible = true
+
+func _on_restart_pressed() -> void:
+	get_tree().reload_current_scene()
+	
+func _on_menu_pressed() -> void:
+	get_tree().change_scene_to_file(menu_scene)

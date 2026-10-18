@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="FreezeWaveEffect" format=3 uid="uid://cj01exn5dts5o"]
+
+[ext_resource type="Script" uid="uid://b2qvs8vb4jc8h" path="res://scripts/freeze_wave_effect.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+description = "Freezes the wave"
+display_text = "TRIG"
+color = Color(0.5, 0.8, 1, 1)
+duration = 6.0
+points = 0

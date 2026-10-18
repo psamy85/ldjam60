@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="StatEffect" format=3 uid="uid://bfmo6yhp40xyg"]
+
+[ext_resource type="Script" uid="uid://jug8jggbeq8u" path="res://scripts/stat_effect.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+target = 1
+property = &"scroll_speed"
+amount = 10.0
+description = "Faster scrolling"
+display_text = "SURGE"
+color = Color(1, 0.45, 0.75, 1)
+is_bonus = false
+duration = 4.0
+spawn_weight = 10.0
+points = 0

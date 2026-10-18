@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="CollectibleData" format=3 uid="uid://c5n0umy7pd6bv"]
+
+[ext_resource type="Script" uid="uid://br72hoem608r4" path="res://scripts/collectible_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+description = "Points"
+display_text = "Hz"
+color = Color(1, 0.9, 0.3, 1)
+spawn_weight = 10.0
+points = 0
+random_points = true

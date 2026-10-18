@@ -2,21 +2,38 @@
 
 [ext_resource type="Script" uid="uid://c1jiesqfa08to" path="res://scripts/player.gd" id="1_3vyb7"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_tbgi4"]
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_jv1ba"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_3vyb7"]
+offsets = PackedFloat32Array(0, 0.23849373, 0.57740587)
+colors = PackedColorArray(1, 1, 1, 1, 0.41721857, 0.41721857, 0.41721857, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2wyq8"]
+gradient = SubResource("Gradient_3vyb7")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_jv1ba"]
+diffuse_texture = SubResource("GradientTexture2D_2wyq8")
 
-[node name="Player" type="Area2D" unique_id=1422007142]
+[sub_resource type="CircleShape2D" id="CircleShape2D_tbgi4"]
+
+[node name="Player" type="Area2D" unique_id=1422007142 groups=["Player"]]
 script = ExtResource("1_3vyb7")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=299128871]
-shape = SubResource("CircleShape2D_tbgi4")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1434456010]
 modulate = Color(0, 1, 0.32156864, 1)
+material = SubResource("CanvasItemMaterial_jv1ba")
 position = Vector2(-8.940697e-07, -0.5000007)
-scale = Vector2(16, 17.000002)
+scale = Vector2(1.6250001, 1.65625)
 texture = SubResource("CanvasTexture_jv1ba")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=299128871]
+shape = SubResource("CircleShape2D_tbgi4")
 
 [node name="BoostTimer" type="Timer" parent="." unique_id=1743095086]
 unique_name_in_owner = true

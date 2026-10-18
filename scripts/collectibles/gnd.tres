@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="StatEffect" format=3 uid="uid://d4auftnopbdu5"]
+
+[ext_resource type="Script" uid="uid://jug8jggbeq8u" path="res://scripts/stat_effect.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+target = 1
+property = &"amplitude_scale"
+amount = -0.8
+description = "Flattens the wave"
+display_text = "GND"
+color = Color(0.5, 0.8, 1, 1)
+is_bonus = false
+duration = 5.0
+spawn_weight = 0.8
+points = 0

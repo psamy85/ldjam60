@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://clfvxttoh0md4"]
+
+[ext_resource type="Script" uid="uid://lqk6wpfad645" path="res://scripts/collectible.gd" id="1_1pg6c"]
+[ext_resource type="FontFile" uid="uid://c0pegwh8i4fi4" path="res://assets/Welbut__.ttf" id="1_bkg8t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jv1ba"]
+size = Vector2(32, 11)
+
+[sub_resource type="LabelSettings" id="LabelSettings_jv1ba"]
+font = ExtResource("1_bkg8t")
+font_size = 12
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Area2D" type="Area2D" unique_id=1404025903]
+script = ExtResource("1_1pg6c")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=247919562]
+unique_name_in_owner = true
+position = Vector2(-1, -0.5)
+shape = SubResource("RectangleShape2D_jv1ba")
+
+[node name="Label" type="Label" parent="." unique_id=1099372197]
+unique_name_in_owner = true
+offset_left = -17.0
+offset_top = -9.0
+offset_right = 20.0
+offset_bottom = 8.0
+text = "Rock"
+label_settings = SubResource("LabelSettings_jv1ba")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1952464924]
+unique_name_in_owner = true
+rect = Rect2(-12, -6, 24, 11)
